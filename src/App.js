@@ -12,7 +12,7 @@ function App() {
   const [time, setTime] = useState(d.toTimeString().slice(0, 5));
   useEffect(() => {
       db.collection('todos').orderBy('todo.time').onSnapshot(snapshot => {
-          setTodos(snapshot.docs.map(doc => doc.data().todo))
+          setTodos(snapshot.docs.map(doc => ({ id :doc.id, data : doc.data().todo})))
       })
   }, []);
   const saveTodo = (event) => {
@@ -57,7 +57,7 @@ function App() {
 
         <ul>
             {todos.map(todo => (
-                <Todo time={todo.time} text={todo.text}/>
+                <Todo id = {todo.id} time={todo.data.time} text={todo.data.text}/>
             ))}
         </ul>
     </div>
